@@ -5,6 +5,7 @@
     using AzureStorage.Domain.Dtos;
     using AzureStorage.Domain.Entities;
     using MediatR;
+    using Newtonsoft.Json;
 
     public class UpdateAuditCommand : UpdateAuditDto, IRequest<string> { }
 
@@ -26,8 +27,8 @@
             }
             audit.TransactionTypeId = request.TransactionTypeId;
             audit.User = request.User;
-            audit.NewData = request.NewData;
-            audit.OldData = request.OldData;
+            audit.NewData = JsonConvert.SerializeObject(request.NewData);
+            audit.OldData = JsonConvert.SerializeObject(request.OldData);
             string eTag = await _repository.UpdateAsync(audit);
 
             return eTag;

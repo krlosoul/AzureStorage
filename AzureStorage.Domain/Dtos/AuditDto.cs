@@ -5,10 +5,10 @@
         public string? AuditId { get; set; }
         public string? Entity { get; set; }
         public string? TransactionName { get; set; }
-        public DateTime TransactionDate { get; set; }
+        public string? TransactionDate { get; set; }
         public string? User { get; set; }
-        public string? NewData { get; set; }
-        public string? OldData { get; set; }
+        public IEnumerable<DataDto>? NewData { get; set; }
+        public IEnumerable<DataDto>? OldData { get; set; }
     }
 
     public class CreateAuditDto
@@ -16,8 +16,8 @@
         public string? Entity { get; set; }
         public int TransactionTypeId { get; set; }
         public string? User { get; set; }
-        public string? NewData { get; set; }
-        public string? OldData { get; set; }
+        public IEnumerable<DataDto>? NewData { get; set; }
+        public IEnumerable<DataDto>? OldData { get; set; }
     }
 
     public class UpdateAuditDto
@@ -26,8 +26,8 @@
         public string? Entity { get; set; }
         public int TransactionTypeId { get; set; }
         public string? User { get; set; }
-        public string? NewData { get; set; }
-        public string? OldData { get; set; }
+        public IEnumerable<DataDto>? NewData { get; set; }
+        public IEnumerable<DataDto>? OldData { get; set; }
     }
 
     public class GetAuditQueryByUniqueDto

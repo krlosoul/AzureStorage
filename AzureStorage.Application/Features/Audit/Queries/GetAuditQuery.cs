@@ -9,6 +9,8 @@
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
+    using AzureStorage.Domain.Common.Enums;
+    using Newtonsoft.Json;
 
     public class GetAuditQuery : IRequest<IEnumerable<AuditDto>> { }
 
