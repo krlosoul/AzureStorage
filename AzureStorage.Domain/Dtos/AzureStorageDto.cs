@@ -1,6 +1,6 @@
 ﻿namespace AzureStorage.Domain.Dtos
 {
-    public class ConnectionDto
+    public class AzureStorageDto
     {
         public string? ConnectionString { get; set; }
     }

@@ -8,11 +8,11 @@
 
     [ApiController]
     [Route("api/V1/[controller]")]
-    public class FilesController : ControllerBase
+    public class BlobStorageController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public FilesController(IMediator mediator) => _mediator = mediator;
+        public BlobStorageController(IMediator mediator) => _mediator = mediator;
 
         /// <summary>
         /// Get all files in container.

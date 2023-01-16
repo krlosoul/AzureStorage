@@ -17,7 +17,7 @@
     {
         #region Properties
         private readonly IConfiguration _configuration;
-        private ConnectionDto? _connectionDto;
+        private AzureStorageDto? _connectionDto;
         private readonly BlobServiceClient _blobServiceClient;
         #endregion
 
@@ -113,7 +113,11 @@
         #endregion
 
         #region PrivateMethod
-        private void GetConfiguration() => _configuration.Bind(AzureConstants.AzureStorage, _connectionDto = new ConnectionDto());
+        private void GetConfiguration()
+        {
+            AzureStorageDto instance = _connectionDto = new AzureStorageDto();
+            _configuration.Bind(AzureConstants.AzureStorage, instance);
+        }
 
         private BlobContainerClient GetContainer(string? containerName)
         {

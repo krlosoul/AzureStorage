@@ -1,4 +1,4 @@
-﻿namespace AzureStorage.Application.Features.Audit.Queries
+﻿namespace AzureStorage.Application.Features.TableStorage.Queries
 {
     using AutoMapper;
     using AzureStorage.Application.Common.Exceptions;

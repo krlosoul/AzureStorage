@@ -1,6 +1,6 @@
-﻿namespace AzureStorage.Application.Validators.Audit
+﻿namespace AzureStorage.Application.Validators.TableStorage
 {
-    using AzureStorage.Application.Features.Audit.Queries;
+    using AzureStorage.Application.Features.TableStorage.Queries;
     using FluentValidation;
 
     public  class GetAuditQueryByUniqueValidator : AbstractValidator<GetAuditQueryByUniqueQuery>

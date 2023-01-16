@@ -1,18 +1,18 @@
 ﻿namespace AzureStorage.api.Controllers
 {
-    using AzureStorage.Application.Features.Audit.Commands;
-    using AzureStorage.Application.Features.Audit.Queries;
+    using AzureStorage.Application.Features.TableStorage.Commands;
+    using AzureStorage.Application.Features.TableStorage.Queries;
     using AzureStorage.Domain.Dtos;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
     [Route("api/V1/[controller]")]
-    public class AuditController : ControllerBase
+    public class TableStorageController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public AuditController(IMediator mediator) => _mediator = mediator;
+        public TableStorageController(IMediator mediator) => _mediator = mediator;
 
         /// <summary>
         /// Get All Audits.

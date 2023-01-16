@@ -1,7 +1,8 @@
 ﻿namespace AzureStorage.Domain.Common.Constants
 {
-    public class AzureConstants
+    public static class AzureConstants
     {
         public const string AzureStorage = "AzureStorage";
+        public const string CognitiveServices = "CognitiveServices";
     }
 }

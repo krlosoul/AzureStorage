@@ -10,6 +10,7 @@
         {
             services.AddTransient(typeof(ITableStorageService<>), typeof(TableStorageService<>));
             services.AddTransient(typeof(IBlobStorageService), typeof(BlobStorageService));
+            services.AddTransient(typeof(IFormRecognizerService), typeof(FormRecognizerService));
 
             return services;
         }

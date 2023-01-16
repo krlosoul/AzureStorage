@@ -1,4 +1,4 @@
-﻿namespace AzureStorage.Application.Features.Audit.Commands
+﻿namespace AzureStorage.Application.Features.TableStorage.Commands
 {
     using AzureStorage.Application.Contract;
     using AzureStorage.Domain.Dtos;

@@ -1,6 +1,6 @@
-﻿namespace AzureStorage.Application.Validators.Audit
+﻿namespace AzureStorage.Application.Validators.TableStorage
 {
-    using AzureStorage.Application.Features.Audit.Commands;
+    using AzureStorage.Application.Features.TableStorage.Commands;
     using FluentValidation;
 
     public class CreateAuditValidator : AbstractValidator<CreateAuditCommand>
