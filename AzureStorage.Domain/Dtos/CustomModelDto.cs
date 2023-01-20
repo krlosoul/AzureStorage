@@ -1,4 +1,6 @@
-﻿namespace AzureStorage.Domain.Dtos
+﻿using Microsoft.Azure.Documents.SystemFunctions;
+
+namespace AzureStorage.Domain.Dtos
 {
     public class CustomModelDto<T>
     {
@@ -6,15 +8,9 @@
         public T? File { get; set; }
     }
 
-    public class CustomFieldDto<T>
-    {
-        public string? Key { get; set; }
-        public T? Value { get; set; }
-    }
-
     public class CustomFieldDto
     {
-        public IList<CustomFieldDto<string>>? Fields { get; set; }
-        public List<CustomFieldDto<List<List<CustomFieldDto<string>>>>>? List { get; set; }
+        public Dictionary<string, string> Fields { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, List<Dictionary<string, string>>> List { get; set; } = new Dictionary<string, List<Dictionary<string, string>>>();
     }
 }

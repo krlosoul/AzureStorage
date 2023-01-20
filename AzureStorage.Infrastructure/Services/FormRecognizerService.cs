@@ -22,12 +22,12 @@
         /// Initializes a new instance of the FormRecognizerService.
         /// </summary>
         /// /// <param name="configuration">The IConfiguration.</param>
-        public FormRecognizerService(IConfiguration configuration) 
+        public FormRecognizerService(IConfiguration configuration)
         {
             _configuration = configuration;
             GetConfiguration();
             AzureKeyCredential credential = new(_connectionDto?.Key);
-            Uri uri = new (_connectionDto?.EndPoint);
+            Uri uri = new(_connectionDto?.EndPoint);
             _documentAnalysisClient = new DocumentAnalysisClient(uri, credential);
         }
 
@@ -64,24 +64,20 @@
         private static CustomFieldDto AnalyzeResult(AnalyzeResult analyzeResult)
         {
             CustomFieldDto customFieldDto = new();
-            List<CustomFieldDto<string>> customFieldStringDto = new();
-            List<CustomFieldDto<List<List<CustomFieldDto<string>>>>> customFieldListDto = new();
             for (int i = 0; i < analyzeResult.Documents.Count; i++)
             {
                 AnalyzedDocument document = analyzeResult.Documents[i];
                 IEnumerable<string> keys = document.Fields.Keys;
                 foreach (string key in keys)
                 {
-                    CustomFieldDto<string> itemsString = FieldResult(key, document.Fields);
-                    CustomFieldDto<List<List<CustomFieldDto<string>>>> itemsList = FieldsResult(key, document.Fields);
-                    if (itemsString.Key != null)
-                        customFieldStringDto.Add(itemsString);
-                    if (itemsList.Key != null)
-                        customFieldListDto.Add(itemsList);
+                    string field = FieldResult(key, document.Fields);
+                    List<Dictionary<string, string>> group = FieldsResult(key, document.Fields);
+                    if (field.Any())
+                        customFieldDto.Fields.Add(key,field);
+                    if (group.Any())
+                        customFieldDto.List.Add(key, group);
                 }
             }
-            customFieldDto.Fields = customFieldStringDto;
-            customFieldDto.List = customFieldListDto;
 
             return customFieldDto;
         }
@@ -91,17 +87,16 @@
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="document">The AnalyzedDocument.</param>
-        /// <returns>&lt;CustomFieldDto&lt;string&gt;&gt;.</returns>
-        private static CustomFieldDto<string> FieldResult(string key, IReadOnlyDictionary<string, DocumentField> fields)
+        /// <returns>&lt;string&gt;.</returns>
+        private static string FieldResult(string key, IReadOnlyDictionary<string, DocumentField> fields)
         {
-            CustomFieldDto<string> customFieldDto = new();
+            string value = string.Empty;
             if (fields.TryGetValue(key, out DocumentField? documentField) && documentField.FieldType == DocumentFieldType.String)
             {
-                customFieldDto.Key = key;
-                customFieldDto.Value = documentField.Value.AsString();
+                value = documentField.Value.AsString();
             }
 
-            return customFieldDto;
+            return value;
         }
 
         /// <summary>
@@ -109,10 +104,10 @@
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="document">The AnalyzedDocument.</param>
-        /// <returns>&lt;CustomFieldDto&lt;List&lt;List&lt;CustomFieldDto&lt;string&gt;&gt;&gt;&gt;.</returns>
-        private static CustomFieldDto<List<List<CustomFieldDto<string>>>> FieldsResult(string key, IReadOnlyDictionary<string, DocumentField> fields)
+        /// <returns>&lt;List&lt;Dictionary&lt;string,string&gt;&gt;&gt;.</returns>
+        private static List<Dictionary<string, string>> FieldsResult(string key, IReadOnlyDictionary<string, DocumentField> fields)
         {
-            CustomFieldDto<List<List<CustomFieldDto<string>>>> customFieldDto = new();
+            List<Dictionary<string, string>> group = new();
             if (fields.TryGetValue(key, out DocumentField? documentField) && documentField.FieldType == DocumentFieldType.List)
             {
                 foreach (DocumentField itemField in documentField.Value.AsList())
@@ -120,19 +115,17 @@
                     if (itemField.FieldType == DocumentFieldType.Dictionary)
                     {
                         IReadOnlyDictionary<string, DocumentField> itemFields = itemField.Value.AsDictionary();
-                        customFieldDto.Key = key;
-                        customFieldDto.Value ??= new List<List<CustomFieldDto<string>>>();
-                        List<CustomFieldDto<string>> itemsString = new();
+                        Dictionary<string, string> field = new Dictionary<string, string>();
                         foreach (string subKey in itemFields.Keys)
                         {
-                            itemsString.Add(FieldResult(subKey, itemFields));
+                            field.Add(subKey, FieldResult(subKey, itemFields));
                         }
-                        customFieldDto.Value.Add(itemsString);
+                        group.Add(field);
                     }
                 }
             }
 
-            return customFieldDto;
+            return group;
         }
         #endregion
     }
