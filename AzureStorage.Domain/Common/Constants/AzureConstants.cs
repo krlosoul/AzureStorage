@@ -4,5 +4,6 @@
     {
         public const string AzureStorage = "AzureStorage";
         public const string CognitiveServices = "CognitiveServices";
+        public const string KeyVault = "KeyVault";
     }
 }
